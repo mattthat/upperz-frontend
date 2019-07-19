@@ -1,0 +1,33 @@
+.app-wrapper {
+  text-align: center;
+  width: 100%;
+  margin: 0 auto;
+  margin-top: 10px;
+}
+
+.app {
+  text-align: center;
+  width: 80%;
+  margin: 0 auto;
+  padding: 25px;
+}
+
+.spots-table-status-success {
+  color: green;
+}
+
+.spots-table-status-fail {
+  color: salmon;
+}
+
+.tiny-text {
+  font-size: 8px;
+}
+
+.small-text {
+   font-size: 10px;
+}
+
+.medium-text {
+  font-size: 12px;
+}
