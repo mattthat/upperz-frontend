@@ -8,6 +8,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import MenuItem from "@material-ui/core/MenuItem";
 import SpotService from '../services/SpotService';
+import Cron from 'node-cron';
 
 export default class SingleSpotComponent extends React.Component {
 
@@ -15,6 +16,8 @@ export default class SingleSpotComponent extends React.Component {
         super(props);
         this.state = {
             open: false,
+            scheduleErrorText: '',
+            scheduleInvalid: false
         };
         this.spot = {
             id: '',
@@ -33,6 +36,10 @@ export default class SingleSpotComponent extends React.Component {
                 })
                 .catch(error => {
                 });
+        } else {
+            this.setState({
+                scheduleInvalid: true
+            })
         }
     }
 
@@ -43,6 +50,7 @@ export default class SingleSpotComponent extends React.Component {
     handleCancel() {
         this.setState({open: false});
         this.closeParent();
+        this.spot = {};
     }
 
     handleSubmit() {
@@ -65,6 +73,21 @@ export default class SingleSpotComponent extends React.Component {
         }
     }
 
+    handleSchedule(event) {
+        if (!Cron.validate(event.target.value)) {
+            this.spot.schedule = event.target.value;
+            this.setState({
+                scheduleErrorText: 'Invalid schedule value',
+                scheduleInvalid: true
+            });
+        } else {
+            this.setState({
+                scheduleErrorText: '',
+                scheduleInvalid: false
+            });
+        }
+    }
+
     closeParent() {
         this.props.parent.close();
     }
@@ -73,8 +96,11 @@ export default class SingleSpotComponent extends React.Component {
         this.fieldsDisabled = false;
         let spotView, spotActions = (
             <div>
-                <Button onClick={this.handleCancel.bind(this)} color="primary">Cancel</Button>
-                <Button onClick={this.handleSubmit.bind(this)} color="primary">Submit</Button>
+                <Button onClick={this.handleCancel.bind(this)}
+                        color="primary">Cancel</Button>
+                <Button onClick={this.handleSubmit.bind(this)}
+                        disabled={this.state.scheduleInvalid}
+                        color="primary">Submit</Button>
             </div>
         );
         if (this.props.actionName === 'View') {
@@ -112,7 +138,9 @@ export default class SingleSpotComponent extends React.Component {
                             fullWidth
                         />
                         <TextField
-                            onChange={ (e)=> { this.spot.schedule = e.target.value  } }
+                            error={ this.state.scheduleInvalid }
+                            helperText={ this.state.scheduleErrorText }
+                            onChange={ this.handleSchedule.bind(this) }
                             autoFocus
                             margin="dense"
                             id="schedule"
