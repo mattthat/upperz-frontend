@@ -16,7 +16,8 @@ export default class ReloadingSpotsSnackbarComponent extends React.Component {
     }
     
     handleClose() {
-        this.setState({ open: false });
+        if (this && this.state && this.state.open && typeof this.setState === 'function')
+            this.setState({ open: false });
     };
 
     render() {

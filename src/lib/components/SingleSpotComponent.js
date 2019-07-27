@@ -23,39 +23,57 @@ export default class SingleSpotComponent extends React.Component {
                 id: '',
                 url: '',
                 schedule: ''
-            }
+            },
+            spotId: this.props.spotId || 0,
+            mode: this.props.actionName || 'View'
         };
     }
 
-    gotSpotId() {
-        return this.props.spotId && this.props.spotId.length > 0;
+    componentDidMount() {
+        if (!this.state.spotId) {
+            this.setState({
+                scheduleInvalid: true
+            });
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        let state = {}, act = false;
+
+        if (prevProps.fieldsDisabled !== this.props.fieldsDisabled) {
+            state.fieldsDisabled = this.props.fieldsDisabled;
+            act = true;
+        }
+
+        if (prevProps.actionName !== this.props.actionName) {
+            state.mode = this.props.actionName;
+            if (state.mode === 'View') state.fieldsDisabled = true;
+            act = true;
+        }
+
+        if (act === true) {
+            this.setState(state)
+        }
     }
 
     getSingleSpot(someReaction) {
-        if (this.gotSpotId()) {
+        if (this.state.spotId) {
             SpotService.getSpotById(this.props.spotId)
                 .then(response => {
-                    someReaction(response.data.payload);
+                    if (typeof someReaction === 'function')
+                        someReaction(response.data.payload);
                 })
                 .catch(error => {
                 });
         }
     }
 
-    componentDidMount() {
-        if (!this.gotSpotId()) {
-            this.setState({
-                scheduleInvalid: true
-            });
-        }
-    }
-    
     handleOpen() {
         let state = {
             open: true,
             fieldsDisabled: this.props.actionName === 'View'
         };
-        if (this.gotSpotId()) {
+        if (this.state.spotId) {
             this.getSingleSpot( payload => {
                 this.setState({ ...state, spot: payload});
             });
@@ -66,27 +84,35 @@ export default class SingleSpotComponent extends React.Component {
 
     handleCancel() {
         this.setState({open: false});
-        this.closeParent();
+        this.closeParentMenu();
     }
 
     handleSubmit() {
         this.setState({open: false});
-        this.closeParent();
-        if (this.props.actionName === 'Create') {
-            SpotService.createSpot(this.state.spot)
-                .then(response => {
-                    this.props.table.reloadSpotTable();
-                })
-                .catch(error => {
-                });
-        } else if (this.props.actionName === 'Edit') {
-            SpotService.updateSpot(this.state.spot)
-                .then(response => {
-                    this.props.table.getAllSpots();
-                })
-                .catch(error => {
-                });
+        this.closeParentMenu();
+        if (this.state.mode === 'Create') {
+            this.createSingleSpot();
+        } else if (this.state.mode === 'Edit') {
+            this.updateSingleSpot();
         }
+    }
+
+    createSingleSpot() {
+        SpotService.createSpot(this.state.spot)
+            .then(() => {
+                this.props.table.reloadSpotTable();
+            })
+            .catch(error => {
+            });
+    }
+
+    updateSingleSpot() {
+        SpotService.updateSpot(this.state.spot)
+            .then(() => {
+                this.props.table.getAllSpots();
+            })
+            .catch(error => {
+            });
     }
 
     handleUrl(event) {
@@ -108,7 +134,7 @@ export default class SingleSpotComponent extends React.Component {
         }
     }
 
-    closeParent() {
+    closeParentMenu() {
         this.props.parent.close();
     }
 

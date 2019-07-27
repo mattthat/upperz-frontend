@@ -21,7 +21,7 @@ export default class RemoveSpotConfirmationComponent extends React.Component {
 
     handleYes() {
         this.setState({open: false});
-        this.closeParent();
+        this.props.parent.close();
         SpotService.removeSpot(this.props.spotId)
             .then(response => {
                 this.props.table.getAllSpots();
@@ -32,10 +32,6 @@ export default class RemoveSpotConfirmationComponent extends React.Component {
 
     handleNo() {
         this.setState({open: false});
-        this.closeParent();
-    }
-
-    closeParent() {
         this.props.parent.close();
     }
 
