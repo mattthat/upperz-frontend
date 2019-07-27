@@ -1,7 +1,8 @@
 {
   "name": "upperz-frontend",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "private": true,
+  "description": "Upperz uptime monitor front-end: React and Material UI",
   "dependencies": {
     "@material-ui/core": "^4.2.1",
     "@material-ui/icons": "^4.2.1",

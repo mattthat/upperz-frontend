@@ -1,5 +1,5 @@
 import React from 'react';
-import ReloadingSpotsSnackbarComponent from "./components/ReloadingSpotsSnackbarComponent";
+import ReloadingSpotsSnackbarComponent from './components/ReloadingSpotsSnackbarComponent';
 import SpotsTableComponent from './components/SpotsTableComponent';
 import AppBarComponent from './components/AppBarComponent';
 import './App.css';

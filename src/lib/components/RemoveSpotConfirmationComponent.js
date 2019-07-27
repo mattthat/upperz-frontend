@@ -5,13 +5,14 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import MenuItem from "@material-ui/core/MenuItem";
-import SpotService from "../services/SpotService";
+import MenuItem from '@material-ui/core/MenuItem';
+import SpotService from '../services/SpotService';
 
 export default class RemoveSpotConfirmationComponent extends React.Component {
 
     constructor(props) {
         super(props);
+        this.service = new SpotService();
         this.state = { open: false };
     }
 
@@ -22,8 +23,8 @@ export default class RemoveSpotConfirmationComponent extends React.Component {
     handleYes() {
         this.setState({open: false});
         this.props.parent.close();
-        SpotService.removeSpot(this.props.spotId)
-            .then(response => {
+        this.service.removeSpot(this.props.spotId)
+            .then(() => {
                 this.props.table.getAllSpots();
             })
             .catch(error => {
