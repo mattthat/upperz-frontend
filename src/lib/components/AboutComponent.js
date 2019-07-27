@@ -19,8 +19,6 @@ export default class AboutComponent extends React.Component {
         };
     }
 
-    componentDidMount() {}
-
     handleOpen() {
         AboutService.getAbout()
             .then(response => {
@@ -35,10 +33,6 @@ export default class AboutComponent extends React.Component {
 
     handleExit() {
         this.setState({open: false});
-        this.closeParent();
-    }
-
-    closeParent() {
         this.props.parent.close();
     }
 

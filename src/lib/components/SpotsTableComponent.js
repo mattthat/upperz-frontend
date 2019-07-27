@@ -26,7 +26,6 @@ export default class SpotsTableComponent extends React.Component {
     }
 
     getAllSpots() {
-        this.props.parent.openSnackbar();
         SpotService.getAllSpots()
             .then(response => {
                 this.setState({rows: this.remapPayload(response.data.payload)})
@@ -39,6 +38,7 @@ export default class SpotsTableComponent extends React.Component {
         this.getAllSpots();
         setInterval( () => {
             this.getAllSpots();
+            this.props.parent.openSnackbar();
         }, 60*1000);
     }
 
