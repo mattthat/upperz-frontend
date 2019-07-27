@@ -29,6 +29,14 @@ export default class SpotsTableStatusColumnComponent extends React.Component {
                     code: this.props.code
                 }
             });
+        } else {
+            this.setState({
+                style: {
+                    color: 'spots-table-status-none',
+                    text: 'NONE',
+                    code: 0
+                }
+            })
         }
     }
 

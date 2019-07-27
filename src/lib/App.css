@@ -12,6 +12,27 @@
   padding: 25px;
 }
 
+.custom-app-bar {
+  background-color: mediumaquamarine !important;
+}
+
+.app-name {
+  position: relative;
+  display: inline;
+  bottom: 10px;
+  right: 22px;
+}
+
+.arrow {
+  height: 42px;
+  width: 40px;
+  transform: rotate(180deg);
+  right: 8px;
+  top: 5px;
+  display: inline;
+  position: relative;
+}
+
 .spots-table-status-success {
   color: green;
 }
