@@ -17,54 +17,70 @@ export default class SingleSpotComponent extends React.Component {
         this.state = {
             open: false,
             scheduleErrorText: '',
-            scheduleInvalid: false
-        };
-        this.spot = {
-            id: '',
+            scheduleInvalid: false,
+            fieldsDisabled: !this.props.fieldsDisabled !== true,
+            spot: {
+                id: '',
                 url: '',
                 schedule: ''
+            }
         };
-        this.fieldsDisabled = !this.props.fieldsDisabled !== true;
     }
 
-    componentDidMount() {
-        if (this.props.spotId &&
-            this.props.spotId.length > 0) {
+    gotSpotId() {
+        return this.props.spotId && this.props.spotId.length > 0;
+    }
+
+    getSingleSpot(someReaction) {
+        if (this.gotSpotId()) {
             SpotService.getSpotById(this.props.spotId)
                 .then(response => {
-                    this.spot = response.data.payload;
+                    someReaction(response.data.payload);
                 })
                 .catch(error => {
                 });
-        } else {
-            this.setState({
-                scheduleInvalid: true
-            })
         }
     }
 
+    componentDidMount() {
+        if (!this.gotSpotId()) {
+            this.setState({
+                scheduleInvalid: true
+            });
+        }
+    }
+    
     handleOpen() {
-        this.setState({open: true});
+        let state = {
+            open: true,
+            fieldsDisabled: this.props.actionName === 'View'
+        };
+        if (this.gotSpotId()) {
+            this.getSingleSpot( payload => {
+                this.setState({ ...state, spot: payload});
+            });
+        } else {
+            this.setState(state);
+        }
     };
 
     handleCancel() {
         this.setState({open: false});
         this.closeParent();
-        this.spot = {};
     }
 
     handleSubmit() {
         this.setState({open: false});
-        this.closeParent()
+        this.closeParent();
         if (this.props.actionName === 'Create') {
-            SpotService.createSpot(this.spot)
+            SpotService.createSpot(this.state.spot)
                 .then(response => {
                     this.props.table.reloadSpotTable();
                 })
                 .catch(error => {
                 });
         } else if (this.props.actionName === 'Edit') {
-            SpotService.updateSpot(this.spot)
+            SpotService.updateSpot(this.state.spot)
                 .then(response => {
                     this.props.table.getAllSpots();
                 })
@@ -73,17 +89,21 @@ export default class SingleSpotComponent extends React.Component {
         }
     }
 
+    handleUrl(event) {
+        this.setState({ spot: { ...this.state.spot, url: event.target.value} });
+    }
+
     handleSchedule(event) {
         if (!Cron.validate(event.target.value)) {
-            this.spot.schedule = event.target.value;
             this.setState({
                 scheduleErrorText: 'Invalid schedule value',
-                scheduleInvalid: true
+                scheduleInvalid: true,
             });
         } else {
             this.setState({
                 scheduleErrorText: '',
-                scheduleInvalid: false
+                scheduleInvalid: false,
+                spot: { ...this.state.spot, schedule: event.target.value  }
             });
         }
     }
@@ -93,7 +113,6 @@ export default class SingleSpotComponent extends React.Component {
     }
 
     render() {
-        this.fieldsDisabled = false;
         let spotView, spotActions = (
             <div>
                 <Button onClick={this.handleCancel.bind(this)}
@@ -104,11 +123,10 @@ export default class SingleSpotComponent extends React.Component {
             </div>
         );
         if (this.props.actionName === 'View') {
-            this.fieldsDisabled = true;
             spotView = (
                 <div>
                 <pre>
-                    {JSON.stringify(this.spot.status, null, 2)}
+                    {JSON.stringify(this.state.spot.status, null, 2)}
                 </pre>
                 </div>
             );
@@ -128,13 +146,13 @@ export default class SingleSpotComponent extends React.Component {
                             A Spot contains a URL and a valid CRON-style schedule
                         </DialogContentText>
                         <TextField
-                            onChange={ (e)=> { this.spot.url = e.target.value  } }
+                            onChange={ this.handleUrl.bind(this) }
                             autoFocus
                             margin="dense"
                             id="url"
                             label="URL"
-                            defaultValue={this.spot.url}
-                            disabled={this.fieldsDisabled}
+                            defaultValue={this.state.spot.url}
+                            disabled={this.state.fieldsDisabled}
                             fullWidth
                         />
                         <TextField
@@ -145,8 +163,8 @@ export default class SingleSpotComponent extends React.Component {
                             margin="dense"
                             id="schedule"
                             label="Schedule"
-                            defaultValue={this.spot.schedule}
-                            disabled={this.fieldsDisabled}
+                            defaultValue={this.state.spot.schedule}
+                            disabled={this.state.fieldsDisabled}
                             fullWidth
                         />
                         {spotView}

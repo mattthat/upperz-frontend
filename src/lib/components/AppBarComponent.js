@@ -13,7 +13,7 @@ import AboutComponent from './AboutComponent';
 
 export default class AppBarComponent extends React.Component {
 
-    reloadSpotTable(menuPopup) {
+    closeAndReloadSpotTable(menuPopup) {
         this.props.parent.reloadSpotTable();
         menuPopup.close();
     }
@@ -44,7 +44,7 @@ export default class AppBarComponent extends React.Component {
                                     <Menu {...bindMenu(popupState)}>
                                         <AboutComponent parent={popupState} />
                                         <SingleSpotComponent table={this.props.parent} parent={popupState} actionName="Create" />
-                                        <MenuItem onClick={this.reloadSpotTable.bind(this, popupState)}>Reload</MenuItem>
+                                        <MenuItem onClick={this.closeAndReloadSpotTable.bind(this, popupState)}>Reload</MenuItem>
                                     </Menu>
                                 </React.Fragment>
                             )}
