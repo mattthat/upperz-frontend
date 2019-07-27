@@ -10,6 +10,7 @@ import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
 import MenuItem from '@material-ui/core/MenuItem';
 import SingleSpotComponent from './SingleSpotComponent';
 import AboutComponent from './AboutComponent';
+import Arrow from '../../media/arrow.png';
 
 export default class AppBarComponent extends React.Component {
 
@@ -32,7 +33,7 @@ export default class AppBarComponent extends React.Component {
         }));
         return (
             <div className={classes.root}>
-                <AppBar position="static">
+                <AppBar position="static" className="custom-app-bar">
                     <Toolbar>
                         <PopupState variant="popover" popupId="demo-popup-menu">
                             {popupState => (
@@ -50,7 +51,7 @@ export default class AppBarComponent extends React.Component {
                             )}
                         </PopupState>
                         <Typography variant="h6" className={classes.title}>
-                            Upperz
+                            <img className="arrow" src={Arrow} alt="arrow" /> <div className="app-name">pperz</div>
                         </Typography>
                     </Toolbar>
                 </AppBar>
