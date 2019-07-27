@@ -14,6 +14,7 @@ import SpotsTableActionColumnComponent from "./SpotsTableActionColumnComponent";
 export default class SpotsTableComponent extends React.Component {
     constructor(props) {
         super(props);
+        this.service = new SpotService();
         this.state = { rows: [] };
     }
 
@@ -26,7 +27,7 @@ export default class SpotsTableComponent extends React.Component {
     }
 
     getAllSpots() {
-        SpotService.getAllSpots()
+        this.service.getAllSpots()
             .then(response => {
                 this.setState({rows: this.remapPayload(response.data.payload)})
             })

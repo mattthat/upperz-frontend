@@ -12,6 +12,7 @@ export default class AboutComponent extends React.Component {
 
     constructor(props) {
         super(props);
+        this.service = new AboutService();
         this.state = {
             open: false,
             frontend: require('../../../package.json').version +
@@ -20,7 +21,7 @@ export default class AboutComponent extends React.Component {
     }
 
     handleOpen() {
-        AboutService.getAbout()
+        this.service.getAbout()
             .then(response => {
                 this.setState({
                     backend: response.data.version,

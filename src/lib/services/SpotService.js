@@ -1,29 +1,24 @@
-import Axios from 'axios';
-import SettingsService from './SettingsService';
+import BaseAxiosService from './BaseAxiosService';
 
-export default class SpotService {
-    static getAllSpots() {
-        return Axios
-            .get(new SettingsService().VALUE('SPOT_URL') + '?t=' + new Date().getTime());
+export default class SpotService extends BaseAxiosService {
+    getAllSpots() {
+        return this.axios.get(this.decache(this.settings.VALUE('SPOT_URL')))
     }
 
-    static getSpotById(id) {
-        return Axios
-            .get(new SettingsService().VALUE('SPOT_URL') + `/${id}`)
+    getSpotById(id) {
+        return this.axios.get(this.decache(`${this.settings.VALUE('SPOT_URL')}/${id}`));
     }
 
-    static createSpot(spot) {
-        return Axios
-            .post(new SettingsService().VALUE('SPOT_URL'), spot);
+    createSpot(spot) {
+        return this.axios.post(this.settings.VALUE('SPOT_URL'), spot);
     }
 
-    static updateSpot(spot) {
-        return Axios
-            .put(new SettingsService().VALUE('SPOT_URL') + `/${spot.id}`, spot);
+    updateSpot(spot) {
+        return this.axios.put(
+            `${this.settings.VALUE('SPOT_URL')}/${spot.id}`, spot);
     }
 
-    static removeSpot(id) {
-        return Axios
-            .delete(new SettingsService().VALUE('SPOT_URL') + `/${id}`);
+    removeSpot(id) {
+        return this.axios.delete(`${this.settings.VALUE('SPOT_URL')}/${id}`);
     }
 }

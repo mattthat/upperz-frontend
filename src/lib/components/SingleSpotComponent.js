@@ -14,6 +14,7 @@ export default class SingleSpotComponent extends React.Component {
 
     constructor(props) {
         super(props);
+        this.service = new SpotService();
         this.state = {
             open: false,
             scheduleErrorText: '',
@@ -58,7 +59,7 @@ export default class SingleSpotComponent extends React.Component {
 
     getSingleSpot(someReaction) {
         if (this.state.spotId) {
-            SpotService.getSpotById(this.props.spotId)
+            this.service.getSpotById(this.props.spotId)
                 .then(response => {
                     if (typeof someReaction === 'function')
                         someReaction(response.data.payload);
@@ -98,7 +99,7 @@ export default class SingleSpotComponent extends React.Component {
     }
 
     createSingleSpot() {
-        SpotService.createSpot(this.state.spot)
+        this.service.createSpot(this.state.spot)
             .then(() => {
                 this.props.table.reloadSpotTable();
             })
@@ -107,7 +108,7 @@ export default class SingleSpotComponent extends React.Component {
     }
 
     updateSingleSpot() {
-        SpotService.updateSpot(this.state.spot)
+        this.service.updateSpot(this.state.spot)
             .then(() => {
                 this.props.table.getAllSpots();
             })
