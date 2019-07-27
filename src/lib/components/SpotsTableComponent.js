@@ -26,6 +26,7 @@ export default class SpotsTableComponent extends React.Component {
     }
 
     getAllSpots() {
+        this.props.parent.openSnackbar();
         SpotService.getAllSpots()
             .then(response => {
                 this.setState({rows: this.remapPayload(response.data.payload)})
