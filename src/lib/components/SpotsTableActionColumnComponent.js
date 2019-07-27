@@ -6,11 +6,7 @@ import SingleSpotComponent from "./SingleSpotComponent";
 import RemoveSpotConfirmationComponent from "./RemoveSpotConfirmationComponent";
 
 export default class SpotsTableActionColumnComponent extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { spot: {} };
-    }
-
+    
     render() {
         return (
             <PopupState variant="popover" popupId="demo-popup-menu">

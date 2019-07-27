@@ -14,22 +14,23 @@ export default class AboutComponent extends React.Component {
         super(props);
         this.state = {
             open: false,
-            frontend: require('../../../package.json').version + '.' + require('../..//buildtime.js').time
+            frontend: require('../../../package.json').version +
+                '.' + require('../..//buildtime.js').time
         };
     }
 
-    componentDidMount() {
+    componentDidMount() {}
 
+    handleOpen() {
         AboutService.getAbout()
             .then(response => {
-                this.setState({backend: response.data.version })
+                this.setState({
+                    backend: response.data.version,
+                    open: true
+                });
             })
             .catch(error => {
             });
-    }
-
-    handleOpen() {
-        this.setState({open: true});
     };
 
     handleExit() {

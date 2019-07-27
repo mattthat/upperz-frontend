@@ -57,31 +57,29 @@ export default class SpotsTableComponent extends React.Component {
                     <Table className={classes.table}>
                         <TableHead>
                             <TableRow>
-                                <TableCell>Id</TableCell>
+                                <TableCell>Actions</TableCell>
                                 <TableCell align="right">URL</TableCell>
-                                <TableCell align="right">Schedule</TableCell>
-                                <TableCell align="right">Status</TableCell>
                                 <TableCell align="right">Performed</TableCell>
-                                <TableCell align="right">Actions</TableCell>
+                                <TableCell align="right">Status</TableCell>
+                                <TableCell align="right">Schedule</TableCell>
+                                <TableCell align="right">Id</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             {this.state.rows.map(row => (
                                 <TableRow key={row.id}>
                                     <TableCell component="th" scope="row">
-                                        {row.id}
+                                        <SpotsTableActionColumnComponent table={this} spotId={row.id} />
                                     </TableCell>
                                     <TableCell align="right">{row.url}</TableCell>
-                                    <TableCell align="right">{row.schedule}</TableCell>
-                                    <TableCell align="right">
-                                        <SpotsTableStatusColumnComponent code={row.status.code}/>
-                                    </TableCell>
                                     <TableCell align="right">
                                         <SpotsTablePerformedColumnComponent time={row.status.performed} />
                                     </TableCell>
                                     <TableCell align="right">
-                                        <SpotsTableActionColumnComponent table={this} spotId={row.id} />
+                                        <SpotsTableStatusColumnComponent code={row.status.code}/>
                                     </TableCell>
+                                    <TableCell align="right">{row.schedule}</TableCell>
+                                    <TableCell align="right">{row.id}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
