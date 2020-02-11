@@ -8,15 +8,16 @@ import Menu from '@material-ui/core/Menu';
 import MenuIcon from '@material-ui/icons/Menu';
 import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
 import MenuItem from '@material-ui/core/MenuItem';
-import SingleSpotComponent from './SingleSpotComponent';
-import AboutComponent from './AboutComponent';
-import Arrow from '../../media/arrow.png';
+import SingleSpotComponent from '../popups/SingleSpotComponent';
+import AboutComponent from '../popups/AboutComponent';
+import Arrow from '../../../media/arrow.png';
 
 export default class AppBarComponent extends React.Component {
 
     closeAndReloadSpotTable(menuPopup) {
         this.props.parent.reloadSpotTable();
         menuPopup.close();
+        this.props.parent.openSnackbar();
     }
 
     render() {

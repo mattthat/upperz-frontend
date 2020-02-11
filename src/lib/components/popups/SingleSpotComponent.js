@@ -7,7 +7,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import MenuItem from "@material-ui/core/MenuItem";
-import SpotService from '../services/SpotService';
+import SpotService from '../../services/SpotService';
 import Cron from 'node-cron';
 
 export default class SingleSpotComponent extends React.Component {

@@ -6,7 +6,7 @@ import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import TableBody from "@material-ui/core/TableBody";
 import {makeStyles} from "@material-ui/core";
-import SpotService from '../services/SpotService'
+import SpotService from '../../services/SpotService'
 import SpotsTableStatusColumnComponent from "./SpotsTableStatusColumnComponent";
 import SpotsTablePerformedColumnComponent from "./SpotsTablePerformedColumnComponent";
 import SpotsTableActionColumnComponent from "./SpotsTableActionColumnComponent";

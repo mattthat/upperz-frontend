@@ -1,16 +1,16 @@
 {
   "name": "upperz-frontend",
-  "version": "1.0.6",
+  "version": "1.0.8",
   "private": true,
   "description": "Upperz uptime monitor front-end: React and Material UI",
   "dependencies": {
-    "@material-ui/core": "^4.2.1",
-    "@material-ui/icons": "^4.2.1",
-    "axios": "^0.19.0",
-    "material-ui-popup-state": "^1.4.0",
+    "@material-ui/core": "^4.9.2",
+    "@material-ui/icons": "^4.9.1",
+    "axios": "^0.19.2",
+    "material-ui-popup-state": "^1.5.3",
     "node-cron": "^2.0.3",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
     "react-scripts": "3.0.1",
     "react-timeago": "^4.4.0"
   },

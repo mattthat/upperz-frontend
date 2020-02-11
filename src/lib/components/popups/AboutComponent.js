@@ -5,33 +5,34 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import MenuItem from '@material-ui/core/MenuItem';
-import SpotService from '../services/SpotService';
+import MenuItem from "@material-ui/core/MenuItem";
+import AboutService from '../../services/AboutService';
 
-export default class RemoveSpotConfirmationComponent extends React.Component {
+export default class AboutComponent extends React.Component {
 
     constructor(props) {
         super(props);
-        this.service = new SpotService();
-        this.state = { open: false };
+        this.service = new AboutService();
+        this.state = {
+            open: false,
+            frontend: require('../../../../package.json').version +
+                '.' + require('../../../buildtime.js').time
+        };
     }
 
     handleOpen() {
-        this.setState({open: true});
-    };
-
-    handleYes() {
-        this.setState({open: false});
-        this.props.parent.close();
-        this.service.removeSpot(this.props.spotId)
-            .then(() => {
-                this.props.table.getAllSpots();
+        this.service.getAbout()
+            .then(response => {
+                this.setState({
+                    backend: response.data.version,
+                    open: true
+                });
             })
             .catch(error => {
             });
-    }
+    };
 
-    handleNo() {
+    handleExit() {
         this.setState({open: false});
         this.props.parent.close();
     }
@@ -39,18 +40,18 @@ export default class RemoveSpotConfirmationComponent extends React.Component {
     render() {
         return (
             <div>
-                <MenuItem onClick={this.handleOpen.bind(this)}>Remove</MenuItem>
+                <MenuItem onClick={this.handleOpen.bind(this)}>About</MenuItem>
                 <Dialog open={this.state.open} aria-labelledby="form-dialog-title">
-                    <DialogTitle id="form-dialog-title">Remove Spot</DialogTitle>
+                    <DialogTitle id="form-dialog-title">About Upperz</DialogTitle>
                     <DialogContent>
                         <DialogContentText>
-                            Are you sure you want to remove this Spot?
+                            <div>Frontend: {this.state.frontend}</div>
+                            <div>Backend: {this.state.backend}</div>
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
                         <div>
-                            <Button onClick={this.handleYes.bind(this)} color="primary">Yes</Button>
-                            <Button onClick={this.handleNo.bind(this)} color="primary">No</Button>
+                            <Button onClick={this.handleExit.bind(this)} color="primary">Exit</Button>
                         </div>
                     </DialogActions>
                 </Dialog>
