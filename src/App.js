@@ -1,7 +1,7 @@
 import React from 'react';
-import ReloadingSpotsSnackbarComponent from './components/ReloadingSpotsSnackbarComponent';
-import SpotsTableComponent from './components/SpotsTableComponent';
-import AppBarComponent from './components/AppBarComponent';
+import ReloadingSpotsSnackbarComponent from './lib/components/snackbars/ReloadingSpotsSnackbarComponent';
+import SpotsTableComponent from './lib/components/spots-table/SpotsTableComponent';
+import AppBarComponent from './lib/components/orchestration/AppBarComponent';
 import './App.css';
 
 export default class App extends React.Component {

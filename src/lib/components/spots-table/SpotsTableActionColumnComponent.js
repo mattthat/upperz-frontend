@@ -2,8 +2,8 @@ import React from 'react';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
-import SingleSpotComponent from "./SingleSpotComponent";
-import RemoveSpotConfirmationComponent from "./RemoveSpotConfirmationComponent";
+import SingleSpotComponent from "../popups/SingleSpotComponent";
+import RemoveSpotConfirmationComponent from "../popups/RemoveSpotConfirmationComponent";
 
 export default class SpotsTableActionColumnComponent extends React.Component {
     
